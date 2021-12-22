@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Hello</h1>
+
+    <h3>Register Form</h3>
+    <form id="register-form">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        // This is an IFFY or self invoking function
+        // annon arrow function
+        ; (() => {
+            const form = document.getElementById('register-form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+
+                    // iterate over the form values and return as a JS object
+                    // this collects all of the values from the form
+                    const values = Object.values(form).reduce((obj, field) => {
+                        if (field.name) {
+
+                            obj[field.name] = field.value
+                        }
+                        return obj
+                    }, {})
+
+                    // hit the data base with this
+                    // fetch from this address 
+                    const res = await fetch('/api/register', {
+                        method: 'POST',
+                        body: JSON.stringify(values),
+                        headers: { 'Content-type': 'application/json; charset=UTF-8' }
+                    })
+                   
+                    console.log('values', values)
+                } catch (error) {
+                    console.error(e)
+                }
+            })
+        })()
+
+    </script>
+</body>
+
+</html>
