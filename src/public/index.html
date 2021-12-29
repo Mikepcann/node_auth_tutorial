@@ -21,12 +21,11 @@
     <script>
         // This is an IFFY or self invoking function
         // annon arrow function
-        ; (() => {
+         (() => {
             const form = document.getElementById('register-form');
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 try {
-
                     // iterate over the form values and return as a JS object
                     // this collects all of the values from the form
                     const values = Object.values(form).reduce((obj, field) => {
