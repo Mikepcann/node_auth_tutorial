@@ -26,7 +26,10 @@ async function startApp() {
 
     app.post("/api/register", {}, async (request, reply) => {
     try {
-      const userID = await registerUser(request.body.email, request.body.password)
+      const userID = await registerUser(
+        request.body.email, 
+        request.body.password
+      )
       //console.log(userID)
     } catch (error) {
      // console.error(error)
@@ -37,10 +40,18 @@ async function startApp() {
       try {
         console.log(request.body.email, request.body.password)
         
-        const userID = await authorizeUser(request.body.email, request.body.password)
-        //console.log(userID)
+        const userID = await authorizeUser(
+          request.body.email,
+          request.body.password
+        )
+
+        // Generate Auth tokens
+
+        // Set cookies
+        // can only set or access cookies from the server
+        
       } catch (error) {
-       // console.error(error)
+         console.error(error)
       }
       });
 

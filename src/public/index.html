@@ -76,17 +76,18 @@
                         return obj
                     }, {})
 
-                    //console.log(values);
+                    /*
+                    console.log(values); console lots as OBJECT {email: mike }
+                    console.log(JSON.stringify(values)) logs as {"email": "mike"}
+                    */
                     
                     // hit the data base with this
-                    // fetch from this address 
-                    const res = await fetch('/api/authorize', {
+                    // fetch from this address console.log(values)
+                    const res = await fetch('/api/authorize', {           
                         method: 'POST',
                         body: JSON.stringify(values),
                         headers: { 'Content-type': 'application/json; charset=UTF-8' }
                     })
-                   
-                    //console.log('values', values)
                 } catch (error) {
                     console.error(e)
                 }

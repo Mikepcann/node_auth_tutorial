@@ -1,2 +1,2 @@
 *******
-Start on: video 12=> Auth with compare
+Start on: video 15 => refresh VS Auth token
