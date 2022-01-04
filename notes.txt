@@ -1,2 +1,0 @@
-*******
-Start on: video 15 => refresh VS Auth token
