@@ -18,17 +18,28 @@
         <button type="submit">Register</button>
     </form>
 
+    <br>
+    <hr>
+    <br>
+
+    <h3>Login Form</h3>
+    <form id="login-form">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <button type="submit">Login</button>
+    </form>
+
     <script>
         // This is an IFFY or self invoking function
         // annon arrow function
          (() => {
-            const form = document.getElementById('register-form');
-            form.addEventListener('submit', async (e) => {
+            const registerForm = document.getElementById('register-form');
+            registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 try {
                     // iterate over the form values and return as a JS object
                     // this collects all of the values from the form
-                    const values = Object.values(form).reduce((obj, field) => {
+                    const values = Object.values(registerForm).reduce((obj, field) => {
                         if (field.name) {
                             obj[field.name] = field.value
                         }
@@ -52,7 +63,35 @@
             })
         })()
 
+        const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    // iterate over the form values and return as a JS object
+                    // this collects all of the values from the form
+                    const values = Object.values(loginForm).reduce((obj, field) => {
+                        if (field.name) {
+                            obj[field.name] = field.value
+                        }
+                        return obj
+                    }, {})
+
+                    //console.log(values);
+                    
+                    // hit the data base with this
+                    // fetch from this address 
+                    const res = await fetch('/api/authorize', {
+                        method: 'POST',
+                        body: JSON.stringify(values),
+                        headers: { 'Content-type': 'application/json; charset=UTF-8' }
+                    })
+                   
+                    //console.log('values', values)
+                } catch (error) {
+                    console.error(e)
+                }
+            })
+
     </script>
 </body>
-
 </html>

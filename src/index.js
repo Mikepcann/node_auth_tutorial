@@ -5,6 +5,7 @@ import path from "path"; // default node library
 import { fileURLToPath } from "url";
 import { connectDb } from "./db.js";
 import { registerUser } from "./accounts/register.js";
+import { authorizeUser } from "./accounts/authorize.js";
 
 // ESM specific features
 const __filename = fileURLToPath(import.meta.url);
@@ -26,21 +27,22 @@ async function startApp() {
     app.post("/api/register", {}, async (request, reply) => {
     try {
       const userID = await registerUser(request.body.email, request.body.password)
-      console.log(userID)
+      //console.log(userID)
     } catch (error) {
-      console.error(error)
+     // console.error(error)
     }
     });
 
-    /* 
-        This just automatically sets up the server to listen to a get request on the /
-        and sent it a specific response
-    */
-    // app.get('/', {}, (request, reply) =>{
-    //     reply.send({
-    //         data: 'Hello world',
-    //     })
-    // }) // type of request to handle
+    app.post("/api/authorize", {}, async (request, reply) => {
+      try {
+        console.log(request.body.email, request.body.password)
+        
+        const userID = await authorizeUser(request.body.email, request.body.password)
+        //console.log(userID)
+      } catch (error) {
+       // console.error(error)
+      }
+      });
 
     // tell the app to listen
     await app.listen(3000); // returns a promise, thats why we are using the await

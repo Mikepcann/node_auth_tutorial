@@ -24,7 +24,7 @@ export async function  registerUser(email, password) {
         },
         password: hashedPassword
     })
-
+    
     // return user from database
     return result.insertedId
 } 
