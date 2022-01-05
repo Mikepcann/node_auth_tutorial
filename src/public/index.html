@@ -28,6 +28,7 @@
         <input type="password" name="password">
         <button type="submit">Login</button>
     </form>
+    <p class="message"></p>
 
     <script>
         // This is an IFFY or self invoking function
@@ -87,7 +88,7 @@
                         method: 'POST',
                         body: JSON.stringify(values),
                         headers: { 'Content-type': 'application/json; charset=UTF-8' }
-                    })
+                    })          
                 } catch (error) {
                     console.error(e)
                 }

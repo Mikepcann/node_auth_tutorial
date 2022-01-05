@@ -1,6 +1,7 @@
 import "./env.js"; // lets you use the .env file
 import { fastify } from "fastify"; //server library
 import fastifyStatic from "fastify-static"; // plugin for static file library
+import fastifyCookie  from "fastify-cookie";
 import path from "path"; // default node library
 import { fileURLToPath } from "url";
 import { connectDb } from "./db.js";
@@ -18,11 +19,18 @@ const app = fastify(); // creates the app
 
 async function startApp() {
   try {
+
+    app.register(fastifyCookie, {
+      secret: process.env.COOKIE_SIGNATURE
+    })
+
     // try catch is used with the async await
     app.register(fastifyStatic, {
       // sets up the path for the routing by registering a public directory of files
       root: path.join(__dirname, "public"),
     });
+
+
 
     app.post("/api/register", {}, async (request, reply) => {
     try {
@@ -44,16 +52,29 @@ async function startApp() {
           request.body.email,
           request.body.password
         )
-
         // Generate Auth tokens
 
         // Set cookies
         // can only set or access cookies from the server
+        reply.setCookie('testCookie', 'The value is this', {
+          path: '/',
+          domain: 'localhost',
+          httpOnly: true,
+        }).send({
+          data: 'just testing',
+        })
         
       } catch (error) {
          console.error(error)
       }
       });
+
+      app.get('/test',{}, (request, reply) => {
+        console.log(request.cookies.testCookie)
+        reply.send({
+          data: 'hello world'
+        })
+      })
 
     // tell the app to listen
     await app.listen(3000); // returns a promise, thats why we are using the await
