@@ -8,6 +8,7 @@ import { connectDb } from "./db.js";
 import { registerUser } from "./accounts/register.js";
 import { authorizeUser } from "./accounts/authorize.js";
 import { logUserIn } from "./accounts/logUserIn.js";
+import { getUserFromCookies } from "./accounts/user.js";
 
 // ESM specific features
 const __filename = fileURLToPath(import.meta.url);
@@ -59,29 +60,43 @@ async function startApp() {
         
         if(isAuthorized){
           await logUserIn(userId, request, reply)
+          reply.send({
+            data: 'User Logged in',
+          })
+        } else {
+          reply.send({
+            data: 'User NOT logged in.'
+          })
         }
-        // Generate Auth tokens
 
-        // Set cookies
-        // can only set or access cookies from the server
-        reply.setCookie('testCookie', 'The value is this', {
-          path: '/',
-          domain: 'localhost',
-          httpOnly: true,
-        }).send({
-          data: 'just testing',
-        })
         
       } catch (error) {
          console.error(error)
       }
       });
 
-      app.get('/test',{}, (request, reply) => {
-        console.log(request.cookies.testCookie)
-        reply.send({
-          data: 'hello world'
-        })
+      app.get('/test',{}, async (request, reply) => {
+        try {
+           // Verify user login
+        const user = await getUserFromCookies(request)
+        // Return the user Email if exists, otherwise return unauthorized
+        
+        if(user?._id){
+          reply.send({
+            data: user
+          })
+        } else {
+          reply.send({
+            stuff: "User lookup failed"
+          })
+
+        }
+
+
+        } catch (e) {
+          throw new Error(e)
+        }
+       
       })
 
     // tell the app to listen
