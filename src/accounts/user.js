@@ -7,7 +7,7 @@ export async function getUserFromCookies(request){
     try {
         const { user } = await import('../user/user.js')
         // check to make sure access token exists
-            //this uses option chaining ?.
+            //this uses option chaining ?. 
         if(request?.cookies?.accessToken){
              // If access Token
             const { accessToken } = request.cookies
@@ -18,15 +18,24 @@ export async function getUserFromCookies(request){
             return await user.findOne({
                 _id: ObjectId(decodedAccessToken?.userId),
             }) 
-          
         }
     
+        if(request?.cookies?.refreshToken){
+            const { refreshToken } = request.cookies 
+            // Decode refresh token
+            const decodedRefreshToken = jwt.verify(refreshToken, JWTSignature)
+            console.log('decodedRefreshToken', decodedRefreshToken)
+           
+            
+            
+            
+        }
        
-        // Get the access and refresh tokens
        
        
        
-        // Decode refresh token
+       
+       
         // lookup session
         // confirm session is valid
         // if session is valid 
