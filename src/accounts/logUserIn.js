@@ -7,14 +7,17 @@ export async function logUserIn(userId, request, reply){
         ip: request.ip,
         userAgent: request.headers["user-agent"],
     }
+
     // create session
     const sessionToken = await createSession(userId, connectionInformation)
     console.log('sessionToken', sessionToken)
 
     // Create JWT
-    const { accessToken, refreshToken } = await createTokens(sessionToken, userId )
+    const { accessToken, refreshToken } = await createTokens(sessionToken, userId)
+
     // Set cookies
     const now = new Date()
+    
     // Get date 30 days in the future
     const refreshExpires = now.setDate(now.getDate() + 30 )
 
@@ -23,7 +26,7 @@ export async function logUserIn(userId, request, reply){
         domain: 'localhost',
         httpOnly: true,
         expires: refreshExpires
-      }).setCookie('accessToken', accessToken, {
+    }).setCookie('accessToken', accessToken, {
         path: '/',
         domain: 'localhost',
         httpOnly: true,

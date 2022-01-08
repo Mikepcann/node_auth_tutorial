@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
+
 const { compare } = bcrypt
-// New test comment
+
 export async function authorizeUser(email, password){
     // import user collection
     const { user } = await import('../user/user.js')
@@ -20,5 +21,4 @@ export async function authorizeUser(email, password){
 
     // return boolean of if Password is correct
     return {isAuthorized, userId: userData._id}
-    
 }

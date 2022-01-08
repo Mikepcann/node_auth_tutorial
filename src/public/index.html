@@ -33,7 +33,7 @@
     <script>
         // This is an IFFY or self invoking function
         // annon arrow function
-         (() => {
+        (() => {
             const registerForm = document.getElementById('register-form');
             registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -48,7 +48,7 @@
                     }, {})
 
                     //console.log(values);
-                    
+
                     // hit the data base with this
                     // fetch from this address 
                     const res = await fetch('/api/register', {
@@ -56,7 +56,7 @@
                         body: JSON.stringify(values),
                         headers: { 'Content-type': 'application/json; charset=UTF-8' }
                     })
-                   
+
                     //console.log('values', values)
                 } catch (error) {
                     console.error(e)
@@ -65,35 +65,37 @@
         })()
 
         const loginForm = document.getElementById('login-form');
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                try {
-                    // iterate over the form values and return as a JS object
-                    // this collects all of the values from the form
-                    const values = Object.values(loginForm).reduce((obj, field) => {
-                        if (field.name) {
-                            obj[field.name] = field.value
-                        }
-                        return obj
-                    }, {})
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                // iterate over the form values and return as a JS object
+                // this collects all of the values from the form
+                const values = Object.values(loginForm).reduce((obj, field) => {
+                    if (field.name) {
+                        obj[field.name] = field.value
+                    }
+                    return obj
+                }, {})
 
-                    /*
-                    console.log(values); console lots as OBJECT {email: mike }
-                    console.log(JSON.stringify(values)) logs as {"email": "mike"}
-                    */
-                    
-                    // hit the data base with this
-                    // fetch from this address console.log(values)
-                    const res = await fetch('/api/authorize', {           
-                        method: 'POST',
-                        body: JSON.stringify(values),
-                        headers: { 'Content-type': 'application/json; charset=UTF-8' }
-                    })          
-                } catch (error) {
-                    console.error(e)
-                }
-            })
+                /*
+                console.log(values); console lots as OBJECT {email: mike }
+                console.log(JSON.stringify(values)) logs as {"email": "mike"}
+                */
+
+                // hit the data base with this
+                // fetch from this address console.log(values)
+                const res = await fetch('/api/authorize', {
+                    method: 'POST',
+                    body: JSON.stringify(values),
+                    headers: { 'Content-type': 'application/json; charset=UTF-8' }
+                })
+            } catch (error) {
+                console.error(e)
+            }
+        })
 
     </script>
+    
 </body>
+
 </html>

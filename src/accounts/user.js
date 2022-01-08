@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken'
 import mongo from 'mongodb'
-const { ObjectId } = mongo
 
+const { ObjectId } = mongo
 const JWTSignature = process.env.JWT_SIGNATURE
+
 export async function getUserFromCookies(request){
     try {
         const { user } = await import('../user/user.js')
@@ -24,18 +25,9 @@ export async function getUserFromCookies(request){
             const { refreshToken } = request.cookies 
             // Decode refresh token
             const decodedRefreshToken = jwt.verify(refreshToken, JWTSignature)
-            console.log('decodedRefreshToken', decodedRefreshToken)
-           
-            
-            
-            
+            console.log('decodedRefreshToken', decodedRefreshToken)     
         }
-       
-       
-       
-       
-       
-       
+     
         // lookup session
         // confirm session is valid
         // if session is valid 

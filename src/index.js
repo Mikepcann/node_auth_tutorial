@@ -16,12 +16,16 @@ const __dirname = path.dirname(__filename);
 
 const app = fastify(); // creates the app
 
-// this is accessing the environment variable without hard coding it
-//console.log(process.env.MONGO_URL);
+// Connects the database and then turns on the server
+connectDb().then(() => {
+  startApp(); // starts the app
+});
 
+
+// starts the application 
 async function startApp() {
   try {
-
+    // Registers middleware functions
     app.register(fastifyCookie, {
       secret: process.env.COOKIE_SIGNATURE
     })
@@ -32,27 +36,25 @@ async function startApp() {
       root: path.join(__dirname, "public"),
     });
 
-
-
+    // post request path to register a new user
     app.post("/api/register", {}, async (request, reply) => {
       try {
         const userID = await registerUser(
           request.body.email, 
           request.body.password
         )
-        //console.log(userID)
+       
         reply.send({
-          data: "hi mike!"
+          data: "hi user!"
         })
-      } catch (error) {
-      // console.error(error)
+      } catch (e) {
+        console.error(e)
       }
     });
 
+    // used to Authorize a user
     app.post("/api/authorize", {}, async (request, reply) => {
       try {
-       // console.log(request.body.email, request.body.password)
-        
         const { isAuthorized, userId } = await authorizeUser(
           request.body.email,
           request.body.password
@@ -69,30 +71,28 @@ async function startApp() {
           })
         }
 
-        
-      } catch (error) {
-         console.error(error)
+      } catch (e) {
+         console.error(e)
       }
       });
 
+      // test route to check user cookies
       app.get('/test',{}, async (request, reply) => {
         try {
-           // Verify user login
-        const user = await getUserFromCookies(request)
-        // Return the user Email if exists, otherwise return unauthorized
-        
-        if(user?._id){
-          reply.send({
-            data: user
-          })
-        } else {
-          reply.send({
-            stuff: "User lookup failed"
-          })
+            // Verify user login
+            const user = await getUserFromCookies(request)
+            // Return the user Email if exists, otherwise return unauthorized
+            
+            if(user?._id){
+              reply.send({
+                data: user
+              })
+            } else {
+              reply.send({
+                stuff: "User lookup failed"
+              })
 
-        }
-
-
+            }
         } catch (e) {
           throw new Error(e)
         }
@@ -107,6 +107,4 @@ async function startApp() {
   }
 }
 
-connectDb().then(() => {
-  startApp(); // starts the app
-});
+

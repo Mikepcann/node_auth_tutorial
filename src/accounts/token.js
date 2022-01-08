@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 const JWTSignature = process.env.JWT_SIGNATURE
 
 export async function createTokens (sessionToken, userId){
-
     try {
         // Create a refresh Token
             // Session ID
@@ -17,9 +16,10 @@ export async function createTokens (sessionToken, userId){
             sessionId: sessionToken,
             userId
         },JWTSignature)
-        // Return refresh token & Access Token
 
+        // Return refresh token & Access Token
         return { accessToken, refreshToken }
+        
     } catch (e) {
         console.error('e', e)
     }

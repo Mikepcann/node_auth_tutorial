@@ -10,7 +10,6 @@ export async function createSession(userId, connection){
 
         // Insert session into to the DB
         const { session } = await import('../session/session.js')
-        //console.log(sessionToken)
 
         await session.insertOne({
             sessionToken,
@@ -24,6 +23,7 @@ export async function createSession(userId, connection){
         
         // Return session token
         return sessionToken
+        
     } catch (error) {
         throw new Error('Session creation Failed')    
     }
