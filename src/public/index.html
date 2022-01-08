@@ -28,9 +28,26 @@
         <input type="password" name="password">
         <button type="submit">Login</button>
     </form>
-    <p class="message"></p>
+    
+
+    <br>
+    <hr>
+    <br>
+
+    <button onclick="logout()">Logout</button>
 
     <script>
+
+        async function logout(){
+            try {
+                const res = await fetch('api/logout', {
+                    method: 'POST'
+                })
+                
+            } catch (e) {
+                console.error(e);
+            }
+        }
         // This is an IFFY or self invoking function
         // annon arrow function
         (() => {

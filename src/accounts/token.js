@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 const JWTSignature = process.env.JWT_SIGNATURE
 
-export async function createTokens (sessionToken, userId){
+export async function createTokens(sessionToken, userId){
     try {
         // Create a refresh Token
             // Session ID
