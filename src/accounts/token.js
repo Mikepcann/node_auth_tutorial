@@ -7,13 +7,13 @@ export async function createTokens (sessionToken, userId){
         // Create a refresh Token
             // Session ID
         const refreshToken = jwt.sign({
-            sessionId: sessionToken
+            sessionToken: sessionToken
         },JWTSignature)
 
         // Create Access Token
             // Session Id, User Id
         const accessToken = jwt.sign({
-            sessionId: sessionToken,
+            sessionToken: sessionToken,
             userId
         },JWTSignature)
 
